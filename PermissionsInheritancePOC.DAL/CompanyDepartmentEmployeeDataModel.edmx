@@ -1,0 +1,641 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="CompanyDepartmentEmployeeModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Company">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Department">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Identity_table">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="parrent_id" Type="int" />
+          <Property Name="company_id" Type="int" />
+          <Property Name="department_id" Type="int" />
+          <Property Name="employee_id" Type="int" />
+          <Property Name="type_id" Type="int" />
+        </EntityType>
+        <EntityType Name="Permission">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="security_object_id" Type="int" Nullable="false" />
+          <Property Name="identity_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Security_object">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Unit_type">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="type_name" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Identity_table_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
+          <End Role="Identity_table" Type="Self.Identity_table" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Identity_table">
+              <PropertyRef Name="company_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Identity_table_Department">
+          <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
+          <End Role="Identity_table" Type="Self.Identity_table" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Identity_table">
+              <PropertyRef Name="department_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Identity_table_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="Identity_table" Type="Self.Identity_table" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Identity_table">
+              <PropertyRef Name="employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Identity_table_Identity_table">
+          <End Role="Identity_table" Type="Self.Identity_table" Multiplicity="0..1" />
+          <End Role="Identity_table1" Type="Self.Identity_table" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Identity_table">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Identity_table1">
+              <PropertyRef Name="parrent_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Identity_table_Unit_type">
+          <End Role="Unit_type" Type="Self.Unit_type" Multiplicity="0..1" />
+          <End Role="Identity_table" Type="Self.Identity_table" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Unit_type">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Identity_table">
+              <PropertyRef Name="type_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Permission_Identity_table">
+          <End Role="Identity_table" Type="Self.Identity_table" Multiplicity="1" />
+          <End Role="Permission" Type="Self.Permission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Identity_table">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Permission">
+              <PropertyRef Name="identity_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Permission_Security_object">
+          <End Role="Security_object" Type="Self.Security_object" Multiplicity="1" />
+          <End Role="Permission" Type="Self.Permission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Security_object">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Permission">
+              <PropertyRef Name="security_object_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="addCompany_" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id" Type="int" Mode="In" />
+          <Parameter Name="name" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="addDepartment" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id" Type="int" Mode="In" />
+          <Parameter Name="name" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="addEmployee" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id" Type="int" Mode="In" />
+          <Parameter Name="name" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="addIdentity_table" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id" Type="int" Mode="In" />
+          <Parameter Name="parrent_id" Type="int" Mode="In" />
+          <Parameter Name="company_id" Type="int" Mode="In" />
+          <Parameter Name="department_id" Type="int" Mode="In" />
+          <Parameter Name="employee_id" Type="int" Mode="In" />
+          <Parameter Name="type_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="addPermission" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id" Type="int" Mode="In" />
+          <Parameter Name="identity_id" Type="int" Mode="In" />
+          <Parameter Name="security_object_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="addSecurityObject" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id" Type="int" Mode="In" />
+          <Parameter Name="name" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="addSecurityObject_type" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id" Type="int" Mode="In" />
+          <Parameter Name="name" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="CreateUnitTable" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="getIdentitySecuribleObjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="identityId" Type="int" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="Security_objectName" Type="varchar" MaxLength="50" Nullable="false" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="getNamesWithPermissions" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="securibleObjectId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetRec" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ss" Type="int" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="id" Type="int" />
+                <Property Name="parrent_id" Type="int" />
+                <Property Name="company_id" Type="int" />
+                <Property Name="department_id" Type="int" />
+                <Property Name="employee_id" Type="int" />
+                <Property Name="type_id" Type="int" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="getSecuribleObjectPermissions" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="securibleObjectId" Type="int" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="identity_id" Type="int" Nullable="false" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="getSecurityObjectByName" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="name" Type="varchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="CompanyDepartmentEmployeeModelStoreContainer">
+          <EntitySet Name="Company" EntityType="Self.Company" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Identity_table" EntityType="Self.Identity_table" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Permission" EntityType="Self.Permission" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Security_object" EntityType="Self.Security_object" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Unit_type" EntityType="Self.Unit_type" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Identity_table_Company" Association="Self.FK_Identity_table_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="Identity_table" EntitySet="Identity_table" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Identity_table_Department" Association="Self.FK_Identity_table_Department">
+            <End Role="Department" EntitySet="Department" />
+            <End Role="Identity_table" EntitySet="Identity_table" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Identity_table_Employee" Association="Self.FK_Identity_table_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="Identity_table" EntitySet="Identity_table" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Identity_table_Identity_table" Association="Self.FK_Identity_table_Identity_table">
+            <End Role="Identity_table" EntitySet="Identity_table" />
+            <End Role="Identity_table1" EntitySet="Identity_table" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Identity_table_Unit_type" Association="Self.FK_Identity_table_Unit_type">
+            <End Role="Unit_type" EntitySet="Unit_type" />
+            <End Role="Identity_table" EntitySet="Identity_table" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Permission_Identity_table" Association="Self.FK_Permission_Identity_table">
+            <End Role="Identity_table" EntitySet="Identity_table" />
+            <End Role="Permission" EntitySet="Permission" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Permission_Security_object" Association="Self.FK_Permission_Security_object">
+            <End Role="Security_object" EntitySet="Security_object" />
+            <End Role="Permission" EntitySet="Permission" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CompanyDepartmentEmployeeModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <ComplexType Name="getIdentitySecuribleObjects_Result">
+          <Property Name="Security_objectName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="GetRec_Result">
+          <Property Name="id" Type="Int32" />
+          <Property Name="parrent_id" Type="Int32" />
+          <Property Name="company_id" Type="Int32" />
+          <Property Name="department_id" Type="Int32" />
+          <Property Name="employee_id" Type="Int32" />
+          <Property Name="type_id" Type="Int32" />
+        </ComplexType>
+        <ComplexType Name="getSecuribleObjectPermissions_Result">
+          <Property Name="identity_id" Type="Int32" Nullable="false" />
+        </ComplexType>
+        <EntityType Name="Company">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Identity_table" Relationship="Self.FK_Identity_table_Company" FromRole="Company" ToRole="Identity_table" />
+        </EntityType>
+        <EntityType Name="Department">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Identity_table" Relationship="Self.FK_Identity_table_Department" FromRole="Department" ToRole="Identity_table" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Identity_table" Relationship="Self.FK_Identity_table_Employee" FromRole="Employee" ToRole="Identity_table" />
+        </EntityType>
+        <EntityType Name="Identity_table">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="parrent_id" Type="Int32" />
+          <Property Name="company_id" Type="Int32" />
+          <Property Name="department_id" Type="Int32" />
+          <Property Name="employee_id" Type="Int32" />
+          <Property Name="type_id" Type="Int32" />
+          <NavigationProperty Name="Company" Relationship="Self.FK_Identity_table_Company" FromRole="Identity_table" ToRole="Company" />
+          <NavigationProperty Name="Department" Relationship="Self.FK_Identity_table_Department" FromRole="Identity_table" ToRole="Department" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK_Identity_table_Employee" FromRole="Identity_table" ToRole="Employee" />
+          <NavigationProperty Name="Identity_table1" Relationship="Self.FK_Identity_table_Identity_table" FromRole="Identity_table" ToRole="Identity_table1" />
+          <NavigationProperty Name="Identity_table2" Relationship="Self.FK_Identity_table_Identity_table" FromRole="Identity_table1" ToRole="Identity_table" />
+          <NavigationProperty Name="Unit_type" Relationship="Self.FK_Identity_table_Unit_type" FromRole="Identity_table" ToRole="Unit_type" />
+          <NavigationProperty Name="Permissions" Relationship="Self.FK_Permission_Identity_table" FromRole="Identity_table" ToRole="Permission" />
+        </EntityType>
+        <EntityType Name="Permission">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="security_object_id" Type="Int32" Nullable="false" />
+          <Property Name="identity_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Identity_table" Relationship="Self.FK_Permission_Identity_table" FromRole="Permission" ToRole="Identity_table" />
+          <NavigationProperty Name="Security_object" Relationship="Self.FK_Permission_Security_object" FromRole="Permission" ToRole="Security_object" />
+        </EntityType>
+        <EntityType Name="Security_object">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Permissions" Relationship="Self.FK_Permission_Security_object" FromRole="Security_object" ToRole="Permission" />
+        </EntityType>
+        <EntityType Name="Unit_type">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="type_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Identity_table" Relationship="Self.FK_Identity_table_Unit_type" FromRole="Unit_type" ToRole="Identity_table" />
+        </EntityType>
+        <Association Name="FK_Identity_table_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
+          <End Role="Identity_table" Type="Self.Identity_table" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Identity_table">
+              <PropertyRef Name="company_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Identity_table_Department">
+          <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
+          <End Role="Identity_table" Type="Self.Identity_table" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Identity_table">
+              <PropertyRef Name="department_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Identity_table_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="Identity_table" Type="Self.Identity_table" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Identity_table">
+              <PropertyRef Name="employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Identity_table_Identity_table">
+          <End Role="Identity_table" Type="Self.Identity_table" Multiplicity="0..1" />
+          <End Role="Identity_table1" Type="Self.Identity_table" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Identity_table">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Identity_table1">
+              <PropertyRef Name="parrent_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Identity_table_Unit_type">
+          <End Role="Unit_type" Type="Self.Unit_type" Multiplicity="0..1" />
+          <End Role="Identity_table" Type="Self.Identity_table" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Unit_type">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Identity_table">
+              <PropertyRef Name="type_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Permission_Identity_table">
+          <End Role="Identity_table" Type="Self.Identity_table" Multiplicity="1" />
+          <End Role="Permission" Type="Self.Permission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Identity_table">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Permission">
+              <PropertyRef Name="identity_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Permission_Security_object">
+          <End Role="Security_object" Type="Self.Security_object" Multiplicity="1" />
+          <End Role="Permission" Type="Self.Permission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Security_object">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Permission">
+              <PropertyRef Name="security_object_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CompanyDepartmentEmployeeEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Companies" EntityType="Self.Company" />
+          <EntitySet Name="Departments" EntityType="Self.Department" />
+          <EntitySet Name="Employees" EntityType="Self.Employee" />
+          <EntitySet Name="Identity_table" EntityType="Self.Identity_table" />
+          <EntitySet Name="Permissions" EntityType="Self.Permission" />
+          <EntitySet Name="Security_object" EntityType="Self.Security_object" />
+          <EntitySet Name="Unit_type" EntityType="Self.Unit_type" />
+          <AssociationSet Name="FK_Identity_table_Company" Association="Self.FK_Identity_table_Company">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="Identity_table" EntitySet="Identity_table" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Identity_table_Department" Association="Self.FK_Identity_table_Department">
+            <End Role="Department" EntitySet="Departments" />
+            <End Role="Identity_table" EntitySet="Identity_table" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Identity_table_Employee" Association="Self.FK_Identity_table_Employee">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="Identity_table" EntitySet="Identity_table" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Identity_table_Identity_table" Association="Self.FK_Identity_table_Identity_table">
+            <End Role="Identity_table" EntitySet="Identity_table" />
+            <End Role="Identity_table1" EntitySet="Identity_table" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Identity_table_Unit_type" Association="Self.FK_Identity_table_Unit_type">
+            <End Role="Unit_type" EntitySet="Unit_type" />
+            <End Role="Identity_table" EntitySet="Identity_table" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Permission_Identity_table" Association="Self.FK_Permission_Identity_table">
+            <End Role="Identity_table" EntitySet="Identity_table" />
+            <End Role="Permission" EntitySet="Permissions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Permission_Security_object" Association="Self.FK_Permission_Security_object">
+            <End Role="Security_object" EntitySet="Security_object" />
+            <End Role="Permission" EntitySet="Permissions" />
+          </AssociationSet>
+          <FunctionImport Name="getIdentitySecuribleObjects" IsComposable="true" ReturnType="Collection(CompanyDepartmentEmployeeModel.getIdentitySecuribleObjects_Result)">
+            <Parameter Name="identityId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetRec" IsComposable="true" ReturnType="Collection(CompanyDepartmentEmployeeModel.GetRec_Result)">
+            <Parameter Name="ss" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="getSecuribleObjectPermissions" IsComposable="true" ReturnType="Collection(CompanyDepartmentEmployeeModel.getSecuribleObjectPermissions_Result)">
+            <Parameter Name="securibleObjectId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="addCompany_">
+            <Parameter Name="id" Mode="In" Type="Int32" />
+            <Parameter Name="name" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="addDepartment">
+            <Parameter Name="id" Mode="In" Type="Int32" />
+            <Parameter Name="name" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="addEmployee">
+            <Parameter Name="id" Mode="In" Type="Int32" />
+            <Parameter Name="name" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="addIdentity_table">
+            <Parameter Name="id" Mode="In" Type="Int32" />
+            <Parameter Name="parrent_id" Mode="In" Type="Int32" />
+            <Parameter Name="company_id" Mode="In" Type="Int32" />
+            <Parameter Name="department_id" Mode="In" Type="Int32" />
+            <Parameter Name="employee_id" Mode="In" Type="Int32" />
+            <Parameter Name="type_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="addPermission">
+            <Parameter Name="id" Mode="In" Type="Int32" />
+            <Parameter Name="identity_id" Mode="In" Type="Int32" />
+            <Parameter Name="security_object_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="addSecurityObject">
+            <Parameter Name="id" Mode="In" Type="Int32" />
+            <Parameter Name="name" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="addSecurityObject_type">
+            <Parameter Name="id" Mode="In" Type="Int32" />
+            <Parameter Name="name" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="CreateUnitTable" ReturnType="Collection(String)" />
+          <FunctionImport Name="getNamesWithPermissions" ReturnType="Collection(String)">
+            <Parameter Name="securibleObjectId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="getSecurityObjectByName" ReturnType="Collection(String)">
+            <Parameter Name="name" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CompanyDepartmentEmployeeModelStoreContainer" CdmEntityContainer="CompanyDepartmentEmployeeEntities">
+          <EntitySetMapping Name="Companies">
+            <EntityTypeMapping TypeName="CompanyDepartmentEmployeeModel.Company">
+              <MappingFragment StoreEntitySet="Company">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Departments">
+            <EntityTypeMapping TypeName="CompanyDepartmentEmployeeModel.Department">
+              <MappingFragment StoreEntitySet="Department">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Employees">
+            <EntityTypeMapping TypeName="CompanyDepartmentEmployeeModel.Employee">
+              <MappingFragment StoreEntitySet="Employee">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Identity_table">
+            <EntityTypeMapping TypeName="CompanyDepartmentEmployeeModel.Identity_table">
+              <MappingFragment StoreEntitySet="Identity_table">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="parrent_id" ColumnName="parrent_id" />
+                <ScalarProperty Name="company_id" ColumnName="company_id" />
+                <ScalarProperty Name="department_id" ColumnName="department_id" />
+                <ScalarProperty Name="employee_id" ColumnName="employee_id" />
+                <ScalarProperty Name="type_id" ColumnName="type_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Permissions">
+            <EntityTypeMapping TypeName="CompanyDepartmentEmployeeModel.Permission">
+              <MappingFragment StoreEntitySet="Permission">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="security_object_id" ColumnName="security_object_id" />
+                <ScalarProperty Name="identity_id" ColumnName="identity_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Security_object">
+            <EntityTypeMapping TypeName="CompanyDepartmentEmployeeModel.Security_object">
+              <MappingFragment StoreEntitySet="Security_object">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Unit_type">
+            <EntityTypeMapping TypeName="CompanyDepartmentEmployeeModel.Unit_type">
+              <MappingFragment StoreEntitySet="Unit_type">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="type_name" ColumnName="type_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionName="CompanyDepartmentEmployeeModel.Store.getIdentitySecuribleObjects" FunctionImportName="getIdentitySecuribleObjects">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CompanyDepartmentEmployeeModel.getIdentitySecuribleObjects_Result">
+                <ScalarProperty Name="Security_objectName" ColumnName="Security_objectName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionName="CompanyDepartmentEmployeeModel.Store.GetRec" FunctionImportName="GetRec">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CompanyDepartmentEmployeeModel.GetRec_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="parrent_id" ColumnName="parrent_id" />
+                <ScalarProperty Name="company_id" ColumnName="company_id" />
+                <ScalarProperty Name="department_id" ColumnName="department_id" />
+                <ScalarProperty Name="employee_id" ColumnName="employee_id" />
+                <ScalarProperty Name="type_id" ColumnName="type_id" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionName="CompanyDepartmentEmployeeModel.Store.getSecuribleObjectPermissions" FunctionImportName="getSecuribleObjectPermissions">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CompanyDepartmentEmployeeModel.getSecuribleObjectPermissions_Result">
+                <ScalarProperty Name="identity_id" ColumnName="identity_id" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="addCompany_" FunctionName="CompanyDepartmentEmployeeModel.Store.addCompany_" />
+          <FunctionImportMapping FunctionImportName="addDepartment" FunctionName="CompanyDepartmentEmployeeModel.Store.addDepartment" />
+          <FunctionImportMapping FunctionImportName="addEmployee" FunctionName="CompanyDepartmentEmployeeModel.Store.addEmployee" />
+          <FunctionImportMapping FunctionImportName="addIdentity_table" FunctionName="CompanyDepartmentEmployeeModel.Store.addIdentity_table" />
+          <FunctionImportMapping FunctionImportName="addPermission" FunctionName="CompanyDepartmentEmployeeModel.Store.addPermission" />
+          <FunctionImportMapping FunctionImportName="addSecurityObject" FunctionName="CompanyDepartmentEmployeeModel.Store.addSecurityObject" />
+          <FunctionImportMapping FunctionImportName="addSecurityObject_type" FunctionName="CompanyDepartmentEmployeeModel.Store.addSecurityObject_type" />
+          <FunctionImportMapping FunctionImportName="CreateUnitTable" FunctionName="CompanyDepartmentEmployeeModel.Store.CreateUnitTable" />
+          <FunctionImportMapping FunctionImportName="getNamesWithPermissions" FunctionName="CompanyDepartmentEmployeeModel.Store.getNamesWithPermissions" />
+          <FunctionImportMapping FunctionImportName="getSecurityObjectByName" FunctionName="CompanyDepartmentEmployeeModel.Store.getSecurityObjectByName" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
