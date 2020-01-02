@@ -15,8 +15,31 @@ namespace PermissionsInheritancePOC.Controllers
             }
         public IHttpActionResult GetNamesWithPermissions(int securityObjectId)
         {
-            IList<string> final = null;
+            IList<PermissionsInheritancePOC.DAL.getNamesWithPermissions_Result> final = null;
             final = Procedures.GetNames(securityObjectId);
+            if (final == null)
+            {
+                return NotFound();
+            }
+            return Ok(final);
+        }
+        public IHttpActionResult GetAllSecurityObjects()
+        {
+            IList<PermissionsInheritancePOC.DAL.getSecurityObjectsList_Result> final = null;
+            final = Procedures.GetSecurityObjectsList();
+            if (final == null)
+            {
+                return NotFound();
+            }
+            return Ok(final);
+        }
+    }
+    public class UnitsController : ApiController
+    {
+        public IHttpActionResult GetAllUnits()
+        {
+            IList<PermissionsInheritancePOC.DAL.CreateUnitTable_Result> final = null;
+            final = Procedures.GetUnitsList();
             if (final == null)
             {
                 return NotFound();
@@ -25,18 +48,8 @@ namespace PermissionsInheritancePOC.Controllers
         }
         public IHttpActionResult GetSecurityObjects(string name)
         {
-            IList<string> final = null;
+            IList<PermissionsInheritancePOC.DAL.getSecurityObjectByName_Result> final = null;
             final = Procedures.GetSecurityObjects(name);
-            if (final == null)
-            {
-                return NotFound();
-            }
-            return Ok(final);
-        }
-        public IHttpActionResult GetAllUnits()
-        {
-            IList<string> final = null;
-            final = Procedures.GetAllUnits();
             if (final == null)
             {
                 return NotFound();

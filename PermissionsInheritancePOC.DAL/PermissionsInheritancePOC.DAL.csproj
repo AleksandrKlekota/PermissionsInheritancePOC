@@ -50,44 +50,62 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CompantDepartmentEmployeeDataModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CompantDepartmentEmployeeDataModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CompantDepartmentEmployeeDataModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CompantDepartmentEmployeeDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CompantDepartmentEmployeeDataModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CompantDepartmentEmployeeDataModel.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Company.cs">
-      <DependentUpon>CompanyDepartmentEmployeeDataModel.tt</DependentUpon>
+      <DependentUpon>CompantDepartmentEmployeeDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="CompanyDepartmentEmployeeDataModel.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CompanyDepartmentEmployeeDataModel.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CompanyDepartmentEmployeeDataModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CompanyDepartmentEmployeeDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CompanyDepartmentEmployeeDataModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CompanyDepartmentEmployeeDataModel.edmx</DependentUpon>
+    <Compile Include="CreateUnitTable_Result.cs">
+      <DependentUpon>CompantDepartmentEmployeeDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Department.cs">
-      <DependentUpon>CompanyDepartmentEmployeeDataModel.tt</DependentUpon>
+      <DependentUpon>CompantDepartmentEmployeeDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Employee.cs">
-      <DependentUpon>CompanyDepartmentEmployeeDataModel.tt</DependentUpon>
+      <DependentUpon>CompantDepartmentEmployeeDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="getIdentitySecuribleObjects_Result.cs">
-      <DependentUpon>CompanyDepartmentEmployeeDataModel.tt</DependentUpon>
+      <DependentUpon>CompantDepartmentEmployeeDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="getNamesWithPermissions_Result.cs">
+      <DependentUpon>CompantDepartmentEmployeeDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetRec2_Result.cs">
+      <DependentUpon>CompantDepartmentEmployeeDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="GetRec_Result.cs">
-      <DependentUpon>CompanyDepartmentEmployeeDataModel.tt</DependentUpon>
+      <DependentUpon>CompantDepartmentEmployeeDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="getSecuribleObjectPermissionsTest_Result.cs">
+      <DependentUpon>CompantDepartmentEmployeeDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="getSecuribleObjectPermissions_Result.cs">
-      <DependentUpon>CompanyDepartmentEmployeeDataModel.tt</DependentUpon>
+      <DependentUpon>CompantDepartmentEmployeeDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="getSecurityObjectByName_Result.cs">
+      <DependentUpon>CompantDepartmentEmployeeDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="getSecurityObjectsList_Result.cs">
+      <DependentUpon>CompantDepartmentEmployeeDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Identity_table.cs">
-      <DependentUpon>CompanyDepartmentEmployeeDataModel.tt</DependentUpon>
+      <DependentUpon>CompantDepartmentEmployeeDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Permission.cs">
-      <DependentUpon>CompanyDepartmentEmployeeDataModel.tt</DependentUpon>
+      <DependentUpon>CompantDepartmentEmployeeDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Procedures.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
@@ -97,20 +115,20 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security_object.cs">
-      <DependentUpon>CompanyDepartmentEmployeeDataModel.tt</DependentUpon>
+      <DependentUpon>CompantDepartmentEmployeeDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Unit_type.cs">
-      <DependentUpon>CompanyDepartmentEmployeeDataModel.tt</DependentUpon>
+      <DependentUpon>CompantDepartmentEmployeeDataModel.tt</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EntityDeploy Include="CompanyDepartmentEmployeeDataModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>CompanyDepartmentEmployeeDataModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
     <None Include="App.Config" />
-    <None Include="CompanyDepartmentEmployeeDataModel.edmx.diagram">
-      <DependentUpon>CompanyDepartmentEmployeeDataModel.edmx</DependentUpon>
+    <EntityDeploy Include="CompantDepartmentEmployeeDataModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>CompantDepartmentEmployeeDataModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="CompantDepartmentEmployeeDataModel.edmx.diagram">
+      <DependentUpon>CompantDepartmentEmployeeDataModel.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -122,15 +140,15 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="CompanyDepartmentEmployeeDataModel.Context.tt">
+    <Content Include="CompantDepartmentEmployeeDataModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>CompanyDepartmentEmployeeDataModel.edmx</DependentUpon>
-      <LastGenOutput>CompanyDepartmentEmployeeDataModel.Context.cs</LastGenOutput>
+      <DependentUpon>CompantDepartmentEmployeeDataModel.edmx</DependentUpon>
+      <LastGenOutput>CompantDepartmentEmployeeDataModel.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="CompanyDepartmentEmployeeDataModel.tt">
+    <Content Include="CompantDepartmentEmployeeDataModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>CompanyDepartmentEmployeeDataModel.edmx</DependentUpon>
-      <LastGenOutput>CompanyDepartmentEmployeeDataModel.cs</LastGenOutput>
+      <DependentUpon>CompantDepartmentEmployeeDataModel.edmx</DependentUpon>
+      <LastGenOutput>CompantDepartmentEmployeeDataModel.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="CompanyDepartmentEmployeeModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="CompanyDepartmentEmployeeModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Company">
           <Key>
             <PropertyRef Name="id" />
@@ -163,19 +163,6 @@
           <Parameter Name="employee_id" Type="int" Mode="In" />
           <Parameter Name="type_id" Type="int" Mode="In" />
         </Function>
-        <Function Name="addPermission" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="id" Type="int" Mode="In" />
-          <Parameter Name="identity_id" Type="int" Mode="In" />
-          <Parameter Name="security_object_id" Type="int" Mode="In" />
-        </Function>
-        <Function Name="addSecurityObject" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="id" Type="int" Mode="In" />
-          <Parameter Name="name" Type="nvarchar" Mode="In" />
-        </Function>
-        <Function Name="addSecurityObject_type" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="id" Type="int" Mode="In" />
-          <Parameter Name="name" Type="nvarchar" Mode="In" />
-        </Function>
         <Function Name="CreateUnitTable" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="getIdentitySecuribleObjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="identityId" Type="int" Mode="In" />
@@ -205,6 +192,21 @@
             </CollectionType>
           </ReturnType>
         </Function>
+        <Function Name="GetRec2" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ss" Type="int" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="id" Type="int" />
+                <Property Name="parrent_id" Type="int" />
+                <Property Name="company_id" Type="int" />
+                <Property Name="department_id" Type="int" />
+                <Property Name="employee_id" Type="int" />
+                <Property Name="type_id" Type="int" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
         <Function Name="getSecuribleObjectPermissions" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="securibleObjectId" Type="int" Mode="In" />
           <ReturnType>
@@ -215,9 +217,20 @@
             </CollectionType>
           </ReturnType>
         </Function>
+        <Function Name="getSecuribleObjectPermissionsTest" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="securibleObjectId" Type="int" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="Ident_id" Type="int" Nullable="false" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
         <Function Name="getSecurityObjectByName" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="name" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="getSecurityObjectsList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="CompanyDepartmentEmployeeModelStoreContainer">
           <EntitySet Name="Company" EntityType="Self.Company" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
@@ -271,8 +284,19 @@
           <Property Name="employee_id" Type="Int32" />
           <Property Name="type_id" Type="Int32" />
         </ComplexType>
+        <ComplexType Name="GetRec2_Result">
+          <Property Name="id" Type="Int32" />
+          <Property Name="parrent_id" Type="Int32" />
+          <Property Name="company_id" Type="Int32" />
+          <Property Name="department_id" Type="Int32" />
+          <Property Name="employee_id" Type="Int32" />
+          <Property Name="type_id" Type="Int32" />
+        </ComplexType>
         <ComplexType Name="getSecuribleObjectPermissions_Result">
           <Property Name="identity_id" Type="Int32" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="getSecuribleObjectPermissionsTest_Result">
+          <Property Name="Ident_id" Type="Int32" Nullable="false" />
         </ComplexType>
         <EntityType Name="Company">
           <Key>
@@ -468,7 +492,13 @@
           <FunctionImport Name="GetRec" IsComposable="true" ReturnType="Collection(CompanyDepartmentEmployeeModel.GetRec_Result)">
             <Parameter Name="ss" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="GetRec2" IsComposable="true" ReturnType="Collection(CompanyDepartmentEmployeeModel.GetRec2_Result)">
+            <Parameter Name="ss" Mode="In" Type="Int32" />
+          </FunctionImport>
           <FunctionImport Name="getSecuribleObjectPermissions" IsComposable="true" ReturnType="Collection(CompanyDepartmentEmployeeModel.getSecuribleObjectPermissions_Result)">
+            <Parameter Name="securibleObjectId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="getSecuribleObjectPermissionsTest" IsComposable="true" ReturnType="Collection(CompanyDepartmentEmployeeModel.getSecuribleObjectPermissionsTest_Result)">
             <Parameter Name="securibleObjectId" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="addCompany_">
@@ -491,27 +521,33 @@
             <Parameter Name="employee_id" Mode="In" Type="Int32" />
             <Parameter Name="type_id" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="addPermission">
-            <Parameter Name="id" Mode="In" Type="Int32" />
-            <Parameter Name="identity_id" Mode="In" Type="Int32" />
-            <Parameter Name="security_object_id" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="addSecurityObject">
-            <Parameter Name="id" Mode="In" Type="Int32" />
-            <Parameter Name="name" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="addSecurityObject_type">
-            <Parameter Name="id" Mode="In" Type="Int32" />
-            <Parameter Name="name" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="CreateUnitTable" ReturnType="Collection(String)" />
-          <FunctionImport Name="getNamesWithPermissions" ReturnType="Collection(String)">
+          <FunctionImport Name="CreateUnitTable" ReturnType="Collection(CompanyDepartmentEmployeeModel.CreateUnitTable_Result)" />
+          <FunctionImport Name="getNamesWithPermissions" ReturnType="Collection(CompanyDepartmentEmployeeModel.getNamesWithPermissions_Result)">
             <Parameter Name="securibleObjectId" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="getSecurityObjectByName" ReturnType="Collection(String)">
+          <FunctionImport Name="getSecurityObjectByName" ReturnType="Collection(CompanyDepartmentEmployeeModel.getSecurityObjectByName_Result)">
             <Parameter Name="name" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="getSecurityObjectsList" ReturnType="Collection(CompanyDepartmentEmployeeModel.getSecurityObjectsList_Result)" />
         </EntityContainer>
+        <ComplexType Name="CreateUnitTable_Result">
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="String" Name="name" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="type_name" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="getNamesWithPermissions_Result">
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="String" Name="name" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="type_id" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="getSecurityObjectByName_Result">
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="String" Name="name" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="getSecurityObjectsList_Result">
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="String" Name="name" Nullable="false" MaxLength="50" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -598,6 +634,18 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionName="CompanyDepartmentEmployeeModel.Store.GetRec2" FunctionImportName="GetRec2">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CompanyDepartmentEmployeeModel.GetRec2_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="parrent_id" ColumnName="parrent_id" />
+                <ScalarProperty Name="company_id" ColumnName="company_id" />
+                <ScalarProperty Name="department_id" ColumnName="department_id" />
+                <ScalarProperty Name="employee_id" ColumnName="employee_id" />
+                <ScalarProperty Name="type_id" ColumnName="type_id" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <FunctionImportMapping FunctionName="CompanyDepartmentEmployeeModel.Store.getSecuribleObjectPermissions" FunctionImportName="getSecuribleObjectPermissions">
             <ResultMapping>
               <ComplexTypeMapping TypeName="CompanyDepartmentEmployeeModel.getSecuribleObjectPermissions_Result">
@@ -605,16 +653,51 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionName="CompanyDepartmentEmployeeModel.Store.getSecuribleObjectPermissionsTest" FunctionImportName="getSecuribleObjectPermissionsTest">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CompanyDepartmentEmployeeModel.getSecuribleObjectPermissionsTest_Result">
+                <ScalarProperty Name="Ident_id" ColumnName="Ident_id" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="addCompany_" FunctionName="CompanyDepartmentEmployeeModel.Store.addCompany_" />
           <FunctionImportMapping FunctionImportName="addDepartment" FunctionName="CompanyDepartmentEmployeeModel.Store.addDepartment" />
           <FunctionImportMapping FunctionImportName="addEmployee" FunctionName="CompanyDepartmentEmployeeModel.Store.addEmployee" />
           <FunctionImportMapping FunctionImportName="addIdentity_table" FunctionName="CompanyDepartmentEmployeeModel.Store.addIdentity_table" />
-          <FunctionImportMapping FunctionImportName="addPermission" FunctionName="CompanyDepartmentEmployeeModel.Store.addPermission" />
-          <FunctionImportMapping FunctionImportName="addSecurityObject" FunctionName="CompanyDepartmentEmployeeModel.Store.addSecurityObject" />
-          <FunctionImportMapping FunctionImportName="addSecurityObject_type" FunctionName="CompanyDepartmentEmployeeModel.Store.addSecurityObject_type" />
-          <FunctionImportMapping FunctionImportName="CreateUnitTable" FunctionName="CompanyDepartmentEmployeeModel.Store.CreateUnitTable" />
-          <FunctionImportMapping FunctionImportName="getNamesWithPermissions" FunctionName="CompanyDepartmentEmployeeModel.Store.getNamesWithPermissions" />
-          <FunctionImportMapping FunctionImportName="getSecurityObjectByName" FunctionName="CompanyDepartmentEmployeeModel.Store.getSecurityObjectByName" />
+          <FunctionImportMapping FunctionImportName="CreateUnitTable" FunctionName="CompanyDepartmentEmployeeModel.Store.CreateUnitTable">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CompanyDepartmentEmployeeModel.CreateUnitTable_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="type_name" ColumnName="type_name" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="getNamesWithPermissions" FunctionName="CompanyDepartmentEmployeeModel.Store.getNamesWithPermissions">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CompanyDepartmentEmployeeModel.getNamesWithPermissions_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="type_id" ColumnName="type_id" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="getSecurityObjectByName" FunctionName="CompanyDepartmentEmployeeModel.Store.getSecurityObjectByName">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CompanyDepartmentEmployeeModel.getSecurityObjectByName_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="getSecurityObjectsList" FunctionName="CompanyDepartmentEmployeeModel.Store.getSecurityObjectsList">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CompanyDepartmentEmployeeModel.getSecurityObjectsList_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

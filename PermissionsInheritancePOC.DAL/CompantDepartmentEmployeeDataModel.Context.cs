@@ -55,6 +55,16 @@ namespace PermissionsInheritancePOC.DAL
             return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<GetRec_Result>("[CompanyDepartmentEmployeeEntities].[GetRec](@ss)", ssParameter);
         }
     
+        [DbFunction("CompanyDepartmentEmployeeEntities", "GetRec2")]
+        public virtual IQueryable<GetRec2_Result> GetRec2(Nullable<int> ss)
+        {
+            var ssParameter = ss.HasValue ?
+                new ObjectParameter("ss", ss) :
+                new ObjectParameter("ss", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<GetRec2_Result>("[CompanyDepartmentEmployeeEntities].[GetRec2](@ss)", ssParameter);
+        }
+    
         [DbFunction("CompanyDepartmentEmployeeEntities", "getSecuribleObjectPermissions")]
         public virtual IQueryable<getSecuribleObjectPermissions_Result> getSecuribleObjectPermissions(Nullable<int> securibleObjectId)
         {
@@ -63,6 +73,16 @@ namespace PermissionsInheritancePOC.DAL
                 new ObjectParameter("securibleObjectId", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<getSecuribleObjectPermissions_Result>("[CompanyDepartmentEmployeeEntities].[getSecuribleObjectPermissions](@securibleObjectId)", securibleObjectIdParameter);
+        }
+    
+        [DbFunction("CompanyDepartmentEmployeeEntities", "getSecuribleObjectPermissionsTest")]
+        public virtual IQueryable<getSecuribleObjectPermissionsTest_Result> getSecuribleObjectPermissionsTest(Nullable<int> securibleObjectId)
+        {
+            var securibleObjectIdParameter = securibleObjectId.HasValue ?
+                new ObjectParameter("securibleObjectId", securibleObjectId) :
+                new ObjectParameter("securibleObjectId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<getSecuribleObjectPermissionsTest_Result>("[CompanyDepartmentEmployeeEntities].[getSecuribleObjectPermissionsTest](@securibleObjectId)", securibleObjectIdParameter);
         }
     
         public virtual int addCompany_(Nullable<int> id, string name)
@@ -133,70 +153,32 @@ namespace PermissionsInheritancePOC.DAL
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("addIdentity_table", idParameter, parrent_idParameter, company_idParameter, department_idParameter, employee_idParameter, type_idParameter);
         }
     
-        public virtual int addPermission(Nullable<int> id, Nullable<int> identity_id, Nullable<int> security_object_id)
+        public virtual ObjectResult<CreateUnitTable_Result> CreateUnitTable()
         {
-            var idParameter = id.HasValue ?
-                new ObjectParameter("id", id) :
-                new ObjectParameter("id", typeof(int));
-    
-            var identity_idParameter = identity_id.HasValue ?
-                new ObjectParameter("identity_id", identity_id) :
-                new ObjectParameter("identity_id", typeof(int));
-    
-            var security_object_idParameter = security_object_id.HasValue ?
-                new ObjectParameter("security_object_id", security_object_id) :
-                new ObjectParameter("security_object_id", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("addPermission", idParameter, identity_idParameter, security_object_idParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CreateUnitTable_Result>("CreateUnitTable");
         }
     
-        public virtual int addSecurityObject(Nullable<int> id, string name)
-        {
-            var idParameter = id.HasValue ?
-                new ObjectParameter("id", id) :
-                new ObjectParameter("id", typeof(int));
-    
-            var nameParameter = name != null ?
-                new ObjectParameter("name", name) :
-                new ObjectParameter("name", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("addSecurityObject", idParameter, nameParameter);
-        }
-    
-        public virtual int addSecurityObject_type(Nullable<int> id, string name)
-        {
-            var idParameter = id.HasValue ?
-                new ObjectParameter("id", id) :
-                new ObjectParameter("id", typeof(int));
-    
-            var nameParameter = name != null ?
-                new ObjectParameter("name", name) :
-                new ObjectParameter("name", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("addSecurityObject_type", idParameter, nameParameter);
-        }
-    
-        public virtual ObjectResult<string> CreateUnitTable()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("CreateUnitTable");
-        }
-    
-        public virtual ObjectResult<string> getNamesWithPermissions(Nullable<int> securibleObjectId)
+        public virtual ObjectResult<getNamesWithPermissions_Result> getNamesWithPermissions(Nullable<int> securibleObjectId)
         {
             var securibleObjectIdParameter = securibleObjectId.HasValue ?
                 new ObjectParameter("securibleObjectId", securibleObjectId) :
                 new ObjectParameter("securibleObjectId", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("getNamesWithPermissions", securibleObjectIdParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<getNamesWithPermissions_Result>("getNamesWithPermissions", securibleObjectIdParameter);
         }
     
-        public virtual ObjectResult<string> getSecurityObjectByName(string name)
+        public virtual ObjectResult<getSecurityObjectByName_Result> getSecurityObjectByName(string name)
         {
             var nameParameter = name != null ?
                 new ObjectParameter("name", name) :
                 new ObjectParameter("name", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("getSecurityObjectByName", nameParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<getSecurityObjectByName_Result>("getSecurityObjectByName", nameParameter);
+        }
+    
+        public virtual ObjectResult<getSecurityObjectsList_Result> getSecurityObjectsList()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<getSecurityObjectsList_Result>("getSecurityObjectsList");
         }
     }
 }

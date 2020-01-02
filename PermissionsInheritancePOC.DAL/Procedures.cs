@@ -9,9 +9,10 @@ namespace PermissionsInheritancePOC.DAL
 {
     public class Procedures
     {
-        public static List<string> GetNames(int securityObjectId)
+        public static List<PermissionsInheritancePOC.DAL.getNamesWithPermissions_Result> GetNames(int securityObjectId)
         {
-            List<string> final = new List<string>();
+            List<PermissionsInheritancePOC.DAL.getNamesWithPermissions_Result> final
+                = new List<PermissionsInheritancePOC.DAL.getNamesWithPermissions_Result>();
             using (var context = new CompanyDepartmentEmployeeEntities())
             {
                 var unitsWithPermission = context.getNamesWithPermissions(securityObjectId);
@@ -21,10 +22,12 @@ namespace PermissionsInheritancePOC.DAL
                 }
             }
             return(final);
-        }
-        public static List<string> GetSecurityObjects(string name)
+        }     
+        public static List<PermissionsInheritancePOC.DAL.getSecurityObjectByName_Result> GetSecurityObjects(string name)
         {
-            List<string> final = new List<string>();
+            List<PermissionsInheritancePOC.DAL.getSecurityObjectByName_Result> final 
+                = new List<PermissionsInheritancePOC.DAL.getSecurityObjectByName_Result>();
+             
             using (var context = new CompanyDepartmentEmployeeEntities())
             {
                 var objects = context.getSecurityObjectByName(name);
@@ -35,12 +38,29 @@ namespace PermissionsInheritancePOC.DAL
             }
             return (final);
         }
-        public static List<string> GetAllUnits()
+        public static List<PermissionsInheritancePOC.DAL.CreateUnitTable_Result> GetUnitsList()
         {
-            List <string> final = new List<string>();
+            List <PermissionsInheritancePOC.DAL.CreateUnitTable_Result> final 
+                = new List<PermissionsInheritancePOC.DAL.CreateUnitTable_Result>();
+
             using (var context = new CompanyDepartmentEmployeeEntities())
             {
                 var units = context.CreateUnitTable();
+                foreach (var str in units)
+                {
+                    final.Add(str);
+                }
+            }
+            return (final);
+        }
+        public static List<PermissionsInheritancePOC.DAL.getSecurityObjectsList_Result> GetSecurityObjectsList()
+        {
+            List<PermissionsInheritancePOC.DAL.getSecurityObjectsList_Result> final
+                = new List<PermissionsInheritancePOC.DAL.getSecurityObjectsList_Result>();
+
+            using (var context = new CompanyDepartmentEmployeeEntities())
+            {
+                var units = context.getSecurityObjectsList();
                 foreach (var str in units)
                 {
                     final.Add(str);
